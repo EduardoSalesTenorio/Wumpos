@@ -70,6 +70,10 @@ public class Run {
 
         for (int i = 0; i < tabu.length; i++) {
             for (int j = 0; j < tabu[i].length; j++) {
+                
+                if(i == 0 && j == 0){
+                    tabu[i][j] = "Agente";
+                }
 
                 if (i == linha && j == coluna || i == linhaSegundo && j == colunaSegundo) {
                     tabu[i][j] = "Poço";
