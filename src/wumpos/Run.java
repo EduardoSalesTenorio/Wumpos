@@ -45,14 +45,14 @@ public class Run {
     }
 
     public void agenteCima() {
-        int[] posicao = {0,0};
+        int[] posicao = {0, 0};
         posicao[0] = agentePosicaoAtual[0];
         posicao[1] = agentePosicaoAtual[1];
 
         posicao[0] = posicao[0] - 1;
 
         if (posicao[0] < 0) {
-           
+
         } else {
             System.out.println("Não foi posivel atualizar a posição do agente");
         }
@@ -70,10 +70,6 @@ public class Run {
 
         for (int i = 0; i < tabu.length; i++) {
             for (int j = 0; j < tabu[i].length; j++) {
-                
-                if(i == 0 && j == 0){
-                    tabu[i][j] = "Agente";
-                }
 
                 if (i == linha && j == coluna || i == linhaSegundo && j == colunaSegundo) {
                     tabu[i][j] = "Poço";
@@ -173,6 +169,7 @@ public class Run {
                 }
             }
         }
+
         /////print
         for (int i = 0; i < tabu.length; i++) {
             System.out.println("");
@@ -180,6 +177,7 @@ public class Run {
                 System.out.print(tabu[i][j] + " | ");
             }
         }
+
     }
 
     public void poco() {
@@ -224,7 +222,7 @@ public class Run {
     }
 
     public void wumpus() {
-        while (linhaWumpus == 0 && colunaWumpus == 0 || linha == linhaWumpus && coluna == colunaWumpus || linhaSegundo == linhaWumpus && colunaSegundo == colunaWumpus && linhaOuro == linhaWumpus && colunaOuro == colunaWumpus) {
+        while (linhaWumpus == 0 && colunaWumpus == 0 || linha == linhaWumpus && coluna == colunaWumpus || linhaSegundo == linhaWumpus && colunaSegundo == colunaWumpus || linhaOuro == linhaWumpus && colunaOuro == colunaWumpus) {
             linhaWumpus = aleatorio.nextInt(4);
             colunaWumpus = aleatorio.nextInt(4);
         }
