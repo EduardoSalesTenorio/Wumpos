@@ -3,6 +3,7 @@ package wumpos;
 import static java.lang.Math.random;
 import java.lang.reflect.Array;
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,6 +14,7 @@ public class Run {
     Random aleatorio = new Random();
 
     String tabu[][] = new String[4][4];
+    String tabuAgente[][] = new String[4][4];
 
     int linha = 0;
     int coluna = 0;
@@ -33,6 +35,7 @@ public class Run {
     int colunaGrito = 0;
 
     int[] agentePosicaoAtual = {0, 0};
+    int[] agentePosicaoAnterior = {0, 0};
 
     public static void main(String[] args) {
 
@@ -40,29 +43,70 @@ public class Run {
 
     }
 
-    public void agente() {
+    public void mostrarTabuleiro() {
+
+        for (int i = 0; i < tabu.length; i++) {
+            System.out.println("");
+            for (int j = 0; j < tabu[i].length; j++) {
+                System.out.print(tabu[i][j] + " | ");
+            }
+        }
 
     }
 
-    public void agenteCima() {
-        int[] posicao = {0, 0};
-        posicao[0] = agentePosicaoAtual[0];
-        posicao[1] = agentePosicaoAtual[1];
+    public void atualizarPosicao(int linha, int coluna) {
+        agentePosicaoAtual[0] += 1;
+        tabuAgente[linha][coluna] = "Agente";
+    }
 
-        posicao[0] = posicao[0] - 1;
-
-        if (posicao[0] < 0) {
-
-        } else {
-            System.out.println("Não foi posivel atualizar a posição do agente");
+    public void mostrarAgente() {
+        for (int i = 0; i < tabuAgente.length; i++) {
+            System.out.println("");
+            for (int j = 0; j < tabuAgente[i].length; j++) {
+                System.out.print(tabuAgente[i][j] + " | ");
+            }
         }
-        System.out.println(agentePosicaoAtual[0]);
+    }
 
+    public void agente() {
+
+        for (int i = 0; i < tabuAgente.length; i++) {
+            for (int j = 0; j < tabuAgente[i].length; j++) {
+
+                if (i == 0 && j == 0) {
+                    tabuAgente[i][j] = "Agente";
+                }
+
+            }
+        }
+
+        for(int i = 0; i <5; i++){
+        agenteBaixo();
+        mostrarAgente();
+        }
+    }
+
+    public void agenteBaixo() {
+        int linha = 0;
+        int coluna = 0;
+
+        linha = agentePosicaoAtual[0];
+        coluna = agentePosicaoAtual[1];
+
+        linha = linha + 1;
+
+        if (linha > 0 && linha < 4) {
+
+            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna])) {
+                tabuAgente[linha][coluna] = "Perigo";
+            } else {
+                atualizarPosicao(linha, coluna);
+            }
+        }
     }
 
     public void tabuleiro() {
 
-        agenteCima();
         poco();
         pocoSegundo();
         ouro();
@@ -170,14 +214,10 @@ public class Run {
             }
         }
 
-        /////print
-        for (int i = 0; i < tabu.length; i++) {
-            System.out.println("");
-            for (int j = 0; j < tabu[i].length; j++) {
-                System.out.print(tabu[i][j] + " | ");
-            }
-        }
-
+        //Metodo para mostrar tabuleiro
+        mostrarTabuleiro();
+        System.out.println("");
+        agente();
     }
 
     public void poco() {
