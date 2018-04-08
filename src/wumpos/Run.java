@@ -39,9 +39,7 @@ public class Run {
     int[] agentePosicaoAnterior = {0, 0};
 
     public static void main(String[] args) {
-
         new Run().tabuleiro();
-
     }
 
     //Tabuleiros
@@ -53,7 +51,6 @@ public class Run {
                 System.out.print(tabu[i][j] + " | ");
             }
         }
-
     }
 
     public void mostrarAgente() {
@@ -210,7 +207,7 @@ public class Run {
 
         while (ouro == false) {
             escolherCaminho();
-            mostrarAgente();
+
         }
     }
 
@@ -249,11 +246,14 @@ public class Run {
             } else if ("Ouro".equals(tabu[linha][coluna])) {
                 ouro = true;
                 JOptionPane.showMessageDialog(null, "Achei o Ouro");
+                atualizarPosicao(linha, coluna);
             } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
+                atualizarPosicao(linha, coluna);
                 perdeu();
             } else {
                 atualizarPosicao(linha, coluna);
             }
+            mostrarAgente();
         }
     }
 
@@ -273,12 +273,16 @@ public class Run {
             } else if ("Ouro".equals(tabu[linha][coluna])) {
                 ouro = true;
                 JOptionPane.showMessageDialog(null, "Achei o Ouro");
+                atualizarPosicao(linha, coluna);
             } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
+                atualizarPosicao(linha, coluna);
                 perdeu();
             } else {
                 atualizarPosicao(linha, coluna);
             }
+            mostrarAgente();
         }
+
     }
 
     public void agenteCima() {
@@ -297,11 +301,14 @@ public class Run {
             } else if ("Ouro".equals(tabu[linha][coluna])) {
                 ouro = true;
                 JOptionPane.showMessageDialog(null, "Achei o Ouro");
+                atualizarPosicao(linha, coluna);
             } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
+                atualizarPosicao(linha, coluna);
                 perdeu();
             } else {
                 atualizarPosicao(linha, coluna);
             }
+            mostrarAgente();
         }
     }
 
@@ -321,11 +328,14 @@ public class Run {
             } else if ("Ouro".equals(tabu[linha][coluna])) {
                 ouro = true;
                 JOptionPane.showMessageDialog(null, "Achei o Ouro");
+                atualizarPosicao(linha, coluna);
             } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
+                atualizarPosicao(linha, coluna);
                 perdeu();
             } else {
                 atualizarPosicao(linha, coluna);
             }
+            mostrarAgente();
         }
     }
 
