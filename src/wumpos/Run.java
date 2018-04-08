@@ -16,6 +16,7 @@ public class Run {
     String tabu[][] = new String[4][4];
     String tabuAgente[][] = new String[4][4];
 
+    boolean ouro = false;
     int linha = 0;
     int coluna = 0;
     int linhaBriza = 0;
@@ -55,7 +56,14 @@ public class Run {
     }
 
     public void atualizarPosicao(int linha, int coluna) {
-        agentePosicaoAtual[0] += 1;
+
+        agentePosicaoAnterior[0] = agentePosicaoAtual[0];
+        agentePosicaoAnterior[1] = agentePosicaoAtual[1];
+
+        tabuAgente[agentePosicaoAnterior[0]][agentePosicaoAnterior[1]] = "L";
+
+        agentePosicaoAtual[0] = linha;
+        agentePosicaoAtual[1] = coluna;
         tabuAgente[linha][coluna] = "Agente";
     }
 
@@ -66,6 +74,8 @@ public class Run {
                 System.out.print(tabuAgente[i][j] + " | ");
             }
         }
+        System.out.println("");
+        System.out.println("");
     }
 
     public void agente() {
@@ -80,9 +90,99 @@ public class Run {
             }
         }
 
-        for(int i = 0; i <5; i++){
-        agenteBaixo();
-        mostrarAgente();
+        while (ouro == false) {
+            escolherCaminho();
+            mostrarAgente();
+        }
+    }
+
+    public void escolherCaminho() {
+        
+        int a = aleatorio.nextInt(4);
+        
+        if(a == 0){
+            agenteDireita();
+        }
+         if(a == 1){
+            agenteEsquerda();
+        }
+          if(a == 2){
+            agenteCima();
+        }
+           if(a == 3){
+            agenteBaixo();
+        }
+    }
+
+    public void agenteDireita() {
+        int linha = 0;
+        int coluna = 0;
+
+        linha = agentePosicaoAtual[0];
+        coluna = agentePosicaoAtual[1];
+
+        coluna = coluna + 1;
+
+        if (coluna > 0 && coluna < 4) {
+
+            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna]) || "BG".equals(tabu[linha][coluna])) {
+                tabuAgente[linha][coluna] = "P";
+            } else if ("Ouro".equals(tabu[linha][coluna])) {
+                ouro = true;
+                JOptionPane.showMessageDialog(null, "Achei o Ouro");
+            } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
+                perdeu();
+            } else {
+                atualizarPosicao(linha, coluna);
+            }
+        }
+    }
+
+    public void agenteEsquerda() {
+        int linha = 0;
+        int coluna = 0;
+
+        linha = agentePosicaoAtual[0];
+        coluna = agentePosicaoAtual[1];
+
+        coluna = coluna - 1;
+
+        if (coluna > 0 && coluna < 4) {
+
+            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna]) || "BG".equals(tabu[linha][coluna])) {
+                tabuAgente[linha][coluna] = "P";
+            } else if ("Ouro".equals(tabu[linha][coluna])) {
+                ouro = true;
+                JOptionPane.showMessageDialog(null, "Achei o Ouro");
+            } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
+                perdeu();
+            } else {
+                atualizarPosicao(linha, coluna);
+            }
+        }
+    }
+
+    public void agenteCima() {
+        int linha = 0;
+        int coluna = 0;
+
+        linha = agentePosicaoAtual[0];
+        coluna = agentePosicaoAtual[1];
+
+        linha = linha - 1;
+
+        if (linha > 0 && linha < 4) {
+
+            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna]) || "BG".equals(tabu[linha][coluna])) {
+                tabuAgente[linha][coluna] = "P";
+            } else if ("Ouro".equals(tabu[linha][coluna])) {
+                ouro = true;
+                JOptionPane.showMessageDialog(null, "Achei o Ouro");
+            } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
+                perdeu();
+            } else {
+                atualizarPosicao(linha, coluna);
+            }
         }
     }
 
@@ -97,12 +197,22 @@ public class Run {
 
         if (linha > 0 && linha < 4) {
 
-            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna])) {
-                tabuAgente[linha][coluna] = "Perigo";
+            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna]) || "BG".equals(tabu[linha][coluna])) {
+                tabuAgente[linha][coluna] = "P";
+            } else if ("Ouro".equals(tabu[linha][coluna])) {
+                ouro = true;
+                JOptionPane.showMessageDialog(null, "Achei o Ouro");
+            } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
+                perdeu();
             } else {
                 atualizarPosicao(linha, coluna);
             }
         }
+    }
+
+    public void perdeu() {
+        JOptionPane.showMessageDialog(null, "Perdeu PlayBoy");
+        System.exit(0);
     }
 
     public void tabuleiro() {
