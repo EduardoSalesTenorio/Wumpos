@@ -180,19 +180,6 @@ public class Run {
         agente();
     }
 
-    //Manipulação e criação do Agente
-    public void atualizarPosicao(int linha, int coluna) {
-
-        agentePosicaoAnterior[0] = agentePosicaoAtual[0];
-        agentePosicaoAnterior[1] = agentePosicaoAtual[1];
-
-        tabuAgente[agentePosicaoAnterior[0]][agentePosicaoAnterior[1]] = "L";
-
-        agentePosicaoAtual[0] = linha;
-        agentePosicaoAtual[1] = coluna;
-        tabuAgente[linha][coluna] = "Agente";
-    }
-
     public void agente() {
 
         for (int i = 0; i < tabuAgente.length; i++) {
@@ -201,13 +188,33 @@ public class Run {
                 if (i == 0 && j == 0) {
                     tabuAgente[i][j] = "Agente";
                 }
-
             }
         }
 
-        while (ouro == false) {
-            escolherCaminho();
+        tabuAgente[0][0] = "Agente";
+        mostrarAgente();
 
+        while (ouro == false) {
+
+            if ("Ouro".equals(tabu[agentePosicaoAtual[0]][agentePosicaoAtual[1]])) {
+                tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "Ouro";
+                acheiOuro();
+            } else if ("Briza".equals(tabu[agentePosicaoAtual[0]][agentePosicaoAtual[1]])) {
+                tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "P";
+            } else if ("Grito".equals(tabu[agentePosicaoAtual[0]][agentePosicaoAtual[1]])) {
+                tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "P";
+            } else if ("Poço".equals(tabu[agentePosicaoAtual[0]][agentePosicaoAtual[1]]) || "Wumpos".equals(tabu[agentePosicaoAtual[0]][agentePosicaoAtual[1]])) {
+                tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "Morreu";
+                mostrarAgente();
+                perdeu();
+            } else {
+                tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "L";
+            }
+
+            if (ouro == false) {
+                escolherCaminho();
+            }
+            mostrarAgente();
         }
     }
 
@@ -231,123 +238,70 @@ public class Run {
     }
 
     public void agenteDireita() {
-        int linha = 0;
-        int coluna = 0;
 
-        linha = agentePosicaoAtual[0];
-        coluna = agentePosicaoAtual[1];
+        agentePosicaoAtual[1] += 1;
 
-        coluna = coluna + 1;
-
-        if (coluna > 0 && coluna < 4) {
-
-            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna]) || "BG".equals(tabu[linha][coluna])) {
-                tabuAgente[linha][coluna] = "P";
-            } else if ("Ouro".equals(tabu[linha][coluna])) {
-                ouro = true;
-                JOptionPane.showMessageDialog(null, "Achei o Ouro");
-                atualizarPosicao(linha, coluna);
-            } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
-                atualizarPosicao(linha, coluna);
-                perdeu();
-            } else {
-                atualizarPosicao(linha, coluna);
-            }
-            mostrarAgente();
+        if (agentePosicaoAtual[1] >= 0 && agentePosicaoAtual[1] <= 3) {
+            System.out.println("Direita");
+            tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "Agente";
+        } else {
+            agentePosicaoAtual[1] -= 1;
+            escolherCaminho();
         }
+
     }
 
     public void agenteEsquerda() {
-        int linha = 0;
-        int coluna = 0;
 
-        linha = agentePosicaoAtual[0];
-        coluna = agentePosicaoAtual[1];
+        agentePosicaoAtual[1] -= 1;
 
-        coluna = coluna - 1;
-
-        if (coluna > 0 && coluna < 4) {
-
-            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna]) || "BG".equals(tabu[linha][coluna])) {
-                tabuAgente[linha][coluna] = "P";
-            } else if ("Ouro".equals(tabu[linha][coluna])) {
-                ouro = true;
-                JOptionPane.showMessageDialog(null, "Achei o Ouro");
-                atualizarPosicao(linha, coluna);
-            } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
-                atualizarPosicao(linha, coluna);
-                perdeu();
-            } else {
-                atualizarPosicao(linha, coluna);
-            }
-            mostrarAgente();
+        if (agentePosicaoAtual[1] >= 0 && agentePosicaoAtual[1] <= 3) {
+            System.out.println("Esquerda");
+            tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "Agente";
+        } else {
+            agentePosicaoAtual[1] += 1;
+            escolherCaminho();
         }
-
     }
 
     public void agenteCima() {
-        int linha = 0;
-        int coluna = 0;
 
-        linha = agentePosicaoAtual[0];
-        coluna = agentePosicaoAtual[1];
+        agentePosicaoAtual[0] -= 1;
 
-        linha = linha - 1;
-
-        if (linha > 0 && linha < 4) {
-
-            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna]) || "BG".equals(tabu[linha][coluna])) {
-                tabuAgente[linha][coluna] = "P";
-            } else if ("Ouro".equals(tabu[linha][coluna])) {
-                ouro = true;
-                JOptionPane.showMessageDialog(null, "Achei o Ouro");
-                atualizarPosicao(linha, coluna);
-            } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
-                atualizarPosicao(linha, coluna);
-                perdeu();
-            } else {
-                atualizarPosicao(linha, coluna);
-            }
-            mostrarAgente();
+        if (agentePosicaoAtual[0] >= 0 && agentePosicaoAtual[0] <= 3) {
+            System.out.println("Cima");
+            tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "Agente";
+        } else {
+            agentePosicaoAtual[0] += 1;
+            escolherCaminho();
         }
     }
 
     public void agenteBaixo() {
-        int linha = 0;
-        int coluna = 0;
+        agentePosicaoAtual[0] += 1;
 
-        linha = agentePosicaoAtual[0];
-        coluna = agentePosicaoAtual[1];
-
-        linha = linha + 1;
-
-        if (linha > 0 && linha < 4) {
-
-            if ("Grito".equals(tabu[linha][coluna]) || "Briza".equals(tabu[linha][coluna]) || "BG".equals(tabu[linha][coluna])) {
-                tabuAgente[linha][coluna] = "P";
-            } else if ("Ouro".equals(tabu[linha][coluna])) {
-                ouro = true;
-                JOptionPane.showMessageDialog(null, "Achei o Ouro");
-                atualizarPosicao(linha, coluna);
-            } else if ("Poço".equals(tabu[linha][coluna]) || "Wumpus".equals(tabu[linha][coluna])) {
-                atualizarPosicao(linha, coluna);
-                perdeu();
-            } else {
-                atualizarPosicao(linha, coluna);
-            }
-            mostrarAgente();
+        if (agentePosicaoAtual[0] >= 0 && agentePosicaoAtual[0] <= 3) {
+            System.out.println("Baixo");
+            tabuAgente[agentePosicaoAtual[0]][agentePosicaoAtual[1]] = "Agente";
+        } else {
+            agentePosicaoAtual[0] -= 1;
+            escolherCaminho();
         }
     }
 
-    //Caso Perder o Jogo
+    //Achados
     public void perdeu() {
         JOptionPane.showMessageDialog(null, "Perdeu PlayBoy");
         System.exit(0);
     }
 
+    public void acheiOuro() {
+        ouro = true;
+        JOptionPane.showMessageDialog(null, "Estou Rico");
+    }
+
     //Objetos do tabuleiro
     public void poco() {
-
         while (linha == 0 && coluna == 0) {
             linha = aleatorio.nextInt(4);
             coluna = aleatorio.nextInt(4);
@@ -355,36 +309,23 @@ public class Run {
 
         linhaBriza = linha;
         colunaBriza = coluna;
-
     }
 
     public void pocoSegundo() {
-
         while (linhaSegundo == 0 && colunaSegundo == 0 || linhaSegundo == linha && colunaSegundo == coluna) {
             linhaSegundo = aleatorio.nextInt(4);
             colunaSegundo = aleatorio.nextInt(4);
         }
 
-//        while (linhaSegundo == linha && colunaSegundo == coluna) {
-//            linhaSegundo = aleatorio.nextInt(4);
-//            colunaSegundo = aleatorio.nextInt(4);
-//        }
         linhaBrizaSegundo = linhaSegundo;
         colunaBrizaSegundo = colunaSegundo;
-
     }
 
     public void ouro() {
-
         while (linhaOuro == 0 && colunaOuro == 0 || linha == linhaOuro && coluna == colunaOuro || linhaSegundo == linhaOuro && colunaSegundo == colunaOuro) {
             linhaOuro = aleatorio.nextInt(4);
             colunaOuro = aleatorio.nextInt(4);
         }
-
-//        while (linha == linhaOuro && coluna == colunaOuro || linhaSegundo == linhaOuro && colunaSegundo == colunaOuro && linhaOuro == 0 && colunaOuro == 0) {
-//            linhaOuro = aleatorio.nextInt(4);
-//            colunaOuro = aleatorio.nextInt(4);
-//        }
     }
 
     public void wumpus() {
@@ -392,11 +333,5 @@ public class Run {
             linhaWumpus = aleatorio.nextInt(4);
             colunaWumpus = aleatorio.nextInt(4);
         }
-
-//        while (linha == linhaWumpus && coluna == colunaWumpus || linhaSegundo == linhaWumpus && colunaSegundo == colunaWumpus && linhaOuro == linhaWumpus && colunaOuro == colunaWumpus && linhaWumpus == 0 && colunaWumpus == 0) {
-//            linhaWumpus = aleatorio.nextInt(4);
-//            colunaWumpus = aleatorio.nextInt(4);
-//        }
     }
-
 }
